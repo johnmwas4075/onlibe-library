@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="forum.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Digital Library</h1>
+        <p>Your gateway to knowledge and exploration</p>  
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="/homepage.html">Home</a></li>
+    
+            <!-- Dropdown Menu for Books -->
+            <li class="dropdown">
+                <span class="dropdown-toggle">Books ▾</span>
+                <ul class="dropdown-content">
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="/upload.html">Upload</a></li>
+                    <li><a href="#browse">Browse</a></li>
+                </ul>
+            </li>
+    
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/forum.html">Forum</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav> 
+    <div class="forum-container">
+        <aside class="sidebar">
+            <button onclick="filterPosts('everyone')">Everyone</button>
+            <button onclick="filterPosts('myposts')">My Posts</button>
+            <button onclick="filterPosts('bookmarked')">Bookmarked</button>
+        </aside>
+
+        <main class="posts-section" id="posts">
+            <!-- Posts will be injected here -->
+        </main>
+
+        <button class="floating-btn" onclick="openPostModal()">+</button>
+    </div>
+
+    <!-- Modal for adding a post -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <textarea id="newPostText" placeholder="What's on your mind?"></textarea>
+            <button onclick="addPost()">Post</button>
+            <button onclick="closePostModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="forum.js"></script>   
+
+</body>
+</html>

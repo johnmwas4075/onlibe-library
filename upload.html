@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <title>Digital Library Upload</title>
+    <link rel="stylesheet" href="upload.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header and Navigation -->
+    <header>
+        <h1>Welcome to the Digital Library</h1>
+        <p>Your gateway to knowledge and exploration</p>  
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="/homepage.html">Home</a></li>
+
+            <!-- Dropdown Menu for Books -->
+            <li class="dropdown">
+                <span class="dropdown-toggle">Books ▾</span>
+                <ul class="dropdown-content">
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="/upload.html">Upload</a></li>
+                    <li><a href="/browse.html">Browse</a></li>
+                </ul>
+            </li>
+
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/forum.html">Forum</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Upload Form -->
+    <div class="container">
+        <h1>Upload Your Document</h1>
+        <form id="uploadForm"> 
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="fiction">Fiction</option>
+                    <option value="non-fiction">Non-Fiction</option>
+                    <option value="science">Science</option>
+                    <option value="technology">Technology</option>
+                    <option value="history">History</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="document">Select Document:</label>
+                <input type="file" id="document" name="document" accept=".pdf,.doc,.docx,.txt" required>
+                <p class="file-info">Supported file types: .pdf, .doc, .docx, .txt</p>
+            </div>
+
+            <button type="submit">Upload</button>
+            <div id="uploadStatus" class="status-message"></div>
+        </form> 
+    </div>
+
+    <script src="upload.js"></script> 
+</body>
+</html>
