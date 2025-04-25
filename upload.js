@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+nodedocument.addEventListener('DOMContentLoaded', function() {
     const uploadForm = document.getElementById('uploadForm');
     const uploadStatus = document.getElementById('uploadStatus');
 

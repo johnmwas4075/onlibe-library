@@ -1,61 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="forum.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Library Forum</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="forum.css" />  
+  <link rel="stylesheet" href="styles.css">
+  
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Digital Library</h1>
-        <p>Your gateway to knowledge and exploration</p>  
-    </header>
-    
-    <nav>
-        <ul>
-            <li><a href="/homepage.html">Home</a></li>
-    
-            <!-- Dropdown Menu for Books -->
-            <li class="dropdown">
-                <span class="dropdown-toggle">Books ▾</span>
-                <ul class="dropdown-content">
-                    <li><a href="#download">Download</a></li>
-                    <li><a href="/upload.html">Upload</a></li>
-                    <li><a href="#browse">Browse</a></li>
-                </ul>
-            </li>
-    
-            <li><a href="/about.html">About Us</a></li>
-            <li><a href="/forum.html">Forum</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav> 
-    <div class="forum-container">
-        <aside class="sidebar">
-            <button onclick="filterPosts('everyone')">Everyone</button>
-            <button onclick="filterPosts('myposts')">My Posts</button>
-            <button onclick="filterPosts('bookmarked')">Bookmarked</button>
-        </aside>
+  <header>
+    <h1>Welcome to the Digital Library</h1>
+    <p>Your gateway to knowledge and exploration</p>  
+</header>
+<nav>
+    <ul>
+        <li><a href="/homepage.html">Home</a></li>
 
-        <main class="posts-section" id="posts">
-            <!-- Posts will be injected here -->
-        </main>
+        <!-- Dropdown Menu for Books -->
+        <li class="dropdown">
+            <span class="dropdown-toggle">Books ▾</span>
+            <ul class="dropdown-content">
+                
+                <li><a href="/upload.html">Upload</a></li>
+                <li><a href="/browse.html">Browse</a></li>
+            </ul>
+        </li>
 
-        <button class="floating-btn" onclick="openPostModal()">+</button>
-    </div>
-
-    <!-- Modal for adding a post -->
-    <div id="postModal" class="modal">
-        <div class="modal-content">
-            <textarea id="newPostText" placeholder="What's on your mind?"></textarea>
-            <button onclick="addPost()">Post</button>
-            <button onclick="closePostModal()">Cancel</button>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/forum.html">Forum</a></li>
+        <li><a href="/contacts.html">Contact</a></li>
+    </ul>
+</nav>
+  <div class="container">
+    <h1>Digital Library Forum</h1>
+    <div id="forum">
+      <div class="post" id="post-1">
+        <div class="post-header">
+          <h3>Post Title</h3>
+          <div class="post-actions">
+            <button class="icon-btn" onclick="toggleCount(this, 'like')"><i class="fa fa-heart"></i><span>0</span></button>
+            <button class="icon-btn" onclick="toggleCount(this, 'dislike')"><i class="fa fa-thumbs-down"></i><span>0</span></button>
+            <button class="styled" onclick="toggleReplyInput(1)">Reply</button>
+            <button class="styled" onclick="deletePost(1)">Delete</button>
+            <button class="icon-btn fa fa-comment comment" data-count="0" onclick="toggleReplies(1)"></button>
+          </div>
         </div>
+        <p>This is a post with like/dislike count and styled buttons.</p>
+        <div class="reply-section" id="replies-1"></div>
+        <div class="new-reply" id="reply-input-1">
+          <textarea rows="2" placeholder="Write a reply..."></textarea>
+          <div class="reply-buttons">
+            <button class="submit" onclick="addReply(1)">Comment</button>
+            <button class="cancel" onclick="toggleReplyInput(1)">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="forum.js"></script>   
+  <div class="floating-button" onclick="togglePostCreator()">+</div>
 
+  <div id="post-creator" class="post-creator">
+    <input type="text" id="post-author" class="input-field" placeholder="Your name..." />
+    <textarea id="new-post-content" class="input-field" placeholder="Write your post..."></textarea>
+    <div class="post-buttons">
+      <button class="submit" onclick="addPost()">Post</button>
+      <button class="cancel" onclick="cancelPost()">Cancel</button>
+    </div>
+  </div>
+  
+
+  
+  
+
+  <script>
+    let postIdCounter = 2;
+
+    function toggleCount(btn, type) {
+      const icon = btn.querySelector('i');
+      const countSpan = btn.querySelector('span');
+      let count = parseInt(countSpan.innerText);
+      const isActive = btn.classList.contains(type === 'like' ? 'liked' : 'disliked');
+
+      if (isActive) {
+        countSpan.innerText = count - 1;
+        btn.classList.remove(type === 'like' ? 'liked' : 'disliked');
+      } else {
+        countSpan.innerText = count + 1;
+        btn.classList.add(type === 'like' ? 'liked' : 'disliked');
+      }
+    }
+
+    function toggleReplies(postId) {
+      const section = document.getElementById(`replies-${postId}`);
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleReplyInput(postId) {
+      const input = document.getElementById(`reply-input-${postId}`);
+      input.style.display = input.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addReply(postId) {
+      const inputContainer = document.getElementById(`reply-input-${postId}`);
+      const textarea = inputContainer.querySelector('textarea');
+      const content = textarea.value.trim();
+      if (!content) return alert('Reply cannot be empty.');
+
+      const replies = document.getElementById(`replies-${postId}`);
+      const replyDiv = document.createElement('div');
+      replyDiv.className = 'reply';
+      replyDiv.innerHTML = `
+        <div class="reply-wrapper">
+          <div class="reply-content">${content}</div>
+          <div class="reply-actions">
+            <button class="icon-btn" onclick="toggleCount(this, 'like')"><i class="fa fa-heart"></i><span>0</span></button>
+            <button class="icon-btn" onclick="toggleCount(this, 'dislike')"><i class="fa fa-thumbs-down"></i><span>0</span></button>
+            <button class="styled" onclick="toggleNestedReplyForm(this)">Reply</button>
+          </div>
+        </div>
+        <div class="nested-reply-form">
+          <textarea rows="2" placeholder="Write a nested reply..."></textarea>
+          <div class="reply-buttons">
+            <button class="submit" onclick="submitNestedReply(this)">Comment</button>
+            <button class="cancel" onclick="toggleNestedReplyForm(this)">Cancel</button>
+          </div>
+        </div>
+        <div class="nested-replies"></div>
+      `;
+      replies.appendChild(replyDiv);
+
+      const commentIcon = document.querySelector(`#post-${postId} .comment`);
+      let count = parseInt(commentIcon.getAttribute('data-count'));
+      commentIcon.setAttribute('data-count', count + 1);
+
+      textarea.value = '';
+      inputContainer.style.display = 'none';
+    }
+
+    function toggleNestedReplyForm(btn) {
+      const replyDiv = btn.closest('.reply');
+      const form = replyDiv.querySelector('.nested-reply-form');
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function submitNestedReply(btn) {
+      const form = btn.closest('.nested-reply-form');
+      const textarea = form.querySelector('textarea');
+      const content = textarea.value.trim();
+      if (!content) return alert('Reply cannot be empty.');
+
+      const nestedContainer = form.nextElementSibling;
+      const nestedReply = document.createElement('div');
+      nestedReply.className = 'reply';
+      nestedReply.innerHTML = `
+        <div class="reply-wrapper">
+          <div class="reply-content">${content}</div>
+          <div class="reply-actions">
+            <button class="icon-btn" onclick="toggleCount(this, 'like')"><i class="fa fa-heart"></i><span>0</span></button>
+            <button class="icon-btn" onclick="toggleCount(this, 'dislike')"><i class="fa fa-thumbs-down"></i><span>0</span></button>
+          </div>
+        </div>
+      `;
+      nestedContainer.appendChild(nestedReply);
+      textarea.value = '';
+      form.style.display = 'none';
+    }
+
+    function deletePost(postId) {
+      const post = document.getElementById(`post-${postId}`);
+      if (post) post.remove();
+    }
+
+    function togglePostCreator() {
+      const creator = document.getElementById('post-creator');
+      creator.style.display = creator.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function cancelPost() {
+        document.getElementById('post-author').value = '';
+        document.getElementById('new-post-content').value = '';
+        document.getElementById('post-creator').style.display = 'none';
+      }
+
+
+    function addPost() {
+  const author = document.getElementById('post-author').value.trim();
+  const content = document.getElementById('new-post-content').value.trim();
+
+  if (!author) return alert('Please enter your name.');
+  if (!content) return alert('Post content cannot be empty.');
+
+  const forum = document.getElementById('forum');
+  const newPost = document.createElement('div');
+  newPost.className = 'post';
+  newPost.id = `post-${postIdCounter}`;
+
+  newPost.innerHTML = `
+    <div class="post-header">
+      <h3>${author}</h3>
+      <div class="post-actions">
+        <button class="icon-btn" onclick="toggleCount(this, 'like')"><i class="fa fa-heart"></i><span>0</span></button>
+        <button class="icon-btn" onclick="toggleCount(this, 'dislike')"><i class="fa fa-thumbs-down"></i><span>0</span></button>
+        <button class="styled" onclick="toggleReplyInput(${postIdCounter})">Reply</button>
+        <button class="styled" onclick="deletePost(${postIdCounter})">Delete</button>
+        <button class="icon-btn fa fa-comment comment" data-count="0" onclick="toggleReplies(${postIdCounter})"></button>
+      </div>
+    </div>
+    <p>${content}</p>
+    <div class="reply-section" id="replies-${postIdCounter}"></div>
+    <div class="new-reply" id="reply-input-${postIdCounter}">
+      <textarea rows="2" placeholder="Write a reply..."></textarea>
+      <div class="reply-buttons">
+        <button class="submit" onclick="addReply(${postIdCounter})">Comment</button>
+        <button class="cancel" onclick="toggleReplyInput(${postIdCounter})">Cancel</button>
+      </div>
+    </div>
+  `;
+
+  forum.appendChild(newPost);
+  postIdCounter++;
+  cancelPost();
+}
+
+  </script>
 </body>
 </html>

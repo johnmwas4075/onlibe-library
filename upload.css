@@ -26,7 +26,7 @@ nav {
 }
 
 .container {
-    background-color:#f3e7da ;
+    background-color:#003355 ;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -35,7 +35,7 @@ nav {
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #ebcd27;
     margin-bottom: 20px;
 }
 
@@ -47,7 +47,7 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #e2c93c;
 }
 
 input[type="text"],
